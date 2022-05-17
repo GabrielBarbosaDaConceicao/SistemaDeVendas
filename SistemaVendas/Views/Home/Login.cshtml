@@ -69,6 +69,19 @@
 <div class="login-form">
     <form asp-controller="Home" asp-action="Login" method="post">
         <h2 class="text-center"> Sistema Vendas</h2>
+
+        @{ 
+            try
+            {
+                var erro = TempData["ErrorLogin"].ToString();
+                <h5 class="text-danger">@erro</h5>
+            }
+            catch
+            {
+
+                
+            }
+        }
         <div clss="form-group">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-user"></i></span>

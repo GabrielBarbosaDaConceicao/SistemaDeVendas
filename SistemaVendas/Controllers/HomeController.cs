@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SistemaVendas.Models;
 using SistemaVendas.Uteis;
@@ -11,6 +12,11 @@ namespace SistemaVendas.Controllers
 {
     public class HomeController : Controller
     {
+        public IActionResult Menu()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult Login()
         {
@@ -23,6 +29,17 @@ namespace SistemaVendas.Controllers
             if (ModelState.IsValid)
             {
                 bool loginOk = login.ValidarLogin();
+                if (loginOk)
+                {
+                    HttpContext.Session.SetString("IdUsiarioLogado",login.Id);
+                    HttpContext.Session.SetString("NomeUsiarioLogado",login.Nome);
+                    return RedirectToAction("Menu", "Home");
+                }
+                else
+                {
+                    TempData["ErrorLogin"] = "E-mail ou Senha são inválidos!";
+                }
+
             }
             
             return View();

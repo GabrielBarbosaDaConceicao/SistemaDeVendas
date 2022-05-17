@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SistemaVendas</title>
+    <title>Sistema de Vendas</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrap.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
-<body>
+<body onload="CarregaUsuarioLogado()">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -31,12 +31,15 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">SistemaVendas</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                @*<ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Login">Entrar no Sistema</a></li>
-                </ul>
+                </ul>*@
+                @using Microsoft.AspNetCore.Http
+                @inject IHttpContextAccessor HttpContextAcessor
+                <div id="NomeUsuarioLogado"></div>
             </div>
         </div>
     </nav>
@@ -73,5 +76,22 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
+
+    <script>
+
+        function CarregaUsuarioLogado()
+        {
+            var nome = '@HttpContextAccessor.HttpContext.Session.GetString("NomeUsuarioLogado")'
+
+            if (nome != "")//Usuário Logado
+            {
+                var divNome = document.getElementById("NomeUsuarioLogado");
+                divNome.innerHTML = "Olá " + nome + " <a href='../Home/Login/0'>(Sair)</a>";
+                divNome.style = "color#ffffff; padding-top: 15px;";
+            } else {// Usuario não Logado
+                window.Location.href = '..Home'
+            }
+        }
+    </script>
 </body>
 </html>

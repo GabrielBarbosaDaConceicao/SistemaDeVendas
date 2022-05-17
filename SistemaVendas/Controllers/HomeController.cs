@@ -11,10 +11,25 @@ namespace SistemaVendas.Controllers
 {
     public class HomeController : Controller
     {
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(LoginModel login)
+        {
+            bool loginOk = login.ValidarLogin();
+
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();
         }
+
 
         public IActionResult About()
         {

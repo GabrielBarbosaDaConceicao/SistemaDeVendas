@@ -20,8 +20,11 @@ namespace SistemaVendas.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel login)
         {
-            bool loginOk = login.ValidarLogin();
-
+            if (ModelState.IsValid)
+            {
+                bool loginOk = login.ValidarLogin();
+            }
+            
             return View();
         }
 
